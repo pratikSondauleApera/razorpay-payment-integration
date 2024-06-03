@@ -61,7 +61,7 @@ function App() {
           address: "Razorpay Corporate Office"
         },
         theme: {
-          "color": "#3399cc"
+          "color": "#28282B"
         },
       };
 
