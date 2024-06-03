@@ -89,6 +89,7 @@ function App() {
         <p>RRR Logo Minimal Yellow T-Shirt</p>
         <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTmnnpKa22QptBH7zIply9wnKXsWNRQShCGZPriLKpTOJoXNTbNYWrWbmR7S3kggMg71Vs&usqp=CAU" />
         <br />
+        <strong>Rs 200</strong>
         <button onClick={paymentHandler}>Pay</button>
       </div>
     </>
