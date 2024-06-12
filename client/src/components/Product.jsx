@@ -1,4 +1,5 @@
 import React from 'react'
+import axios from 'axios'
 
 const Product = () => {
 
@@ -7,23 +8,17 @@ const Product = () => {
         const currency = "INR";
 
         try {
-            const res = await fetch("http://localhost:8000/razorpay/order", {
-                method: "POST",
-                body: JSON.stringify({
-                    amount: amount * 100,
-                    currency,
-                    receipt: 'demo_rc2'
-                }),
-                headers: {
-                    "Content-Type": "application/json"
-                }
-            });
+            const res = await axios.post("http://localhost:8000/razorpay/order", {
+                amount: amount * 100,
+                currency,
+                receipt: 'demo_rc2'
+            })
 
-            if (!res.ok) {
+            if (res.status !== 200) {
                 throw new Error('Failed to create order');
             }
 
-            const order = await res.json();
+            const order = res.data;
             console.log("Order ID ", order.id);
 
             var options = {
@@ -37,19 +32,11 @@ const Product = () => {
                 handler: async function (response) {
                     const body = {
                         ...response,
-                    };
+                    }
 
-                    const validateRes = await fetch(
-                        "http://localhost:8000/razorpay/order/validate",
-                        {
-                            method: "POST",
-                            body: JSON.stringify(body),
-                            headers: {
-                                "Content-Type": "application/json",
-                            },
-                        }
-                    );
-                    const jsonRes = await validateRes.json();
+                    const validateRes = await axios.post("http://localhost:8000/razorpay/order/validate", body)
+
+                    const jsonRes = validateRes.data;
                     console.log(jsonRes);
                 },
                 prefill: {
