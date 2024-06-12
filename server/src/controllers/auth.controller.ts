@@ -2,10 +2,43 @@ import { RequestHandler } from "express";
 import { PrismaClient, Role } from "@prisma/client";
 import bcrypt from "bcrypt"
 import jwt from "jsonwebtoken"
+import Razorpay from "razorpay";
 
 const prisma = new PrismaClient()
 
-export const signUp: RequestHandler = async (req, res) => {
+const razorpay = new Razorpay({
+    key_id: process.env.RAZORPAY_KEY_ID!,
+    key_secret: process.env.RAZORPAY_KEY_SECRET!
+})
+
+const createRazorpayCustomer = async (userId: string, customerId: string, entity: string) => {
+    try {
+        const customerData = {
+            userId,
+            customerId,
+            entity
+        }
+
+        const razorpayCustomer = await prisma.razorpayCustomer.create({
+            data: customerData
+        })
+
+        return {
+            statusCode: 201,
+            data: razorpayCustomer,
+            msg: 'Created customer successfully',
+        };
+    } catch (error) {
+        console.log(error)
+        return {
+            statusCode: 500,
+            msg: "Something went wrong while creatin customer"
+        }
+    }
+}
+
+
+export const signUpAsUser: RequestHandler = async (req, res) => {
     const name = (req.body as { name: string }).name
     const contact = (req.body as { contact: string }).contact
     const email = (req.body as { email: string }).email
@@ -41,6 +74,21 @@ export const signUp: RequestHandler = async (req, res) => {
             data: userData
         })
 
+        if (registerUser) {
+
+            const customer = await razorpay.customers.create({
+                name: registerUser.name,
+                contact: registerUser.contact,
+                email: registerUser.email,
+                fail_existing: 0
+            })
+
+            await createRazorpayCustomer(
+                registerUser.id,
+                customer.id,
+                customer.entity
+            )
+        }
         return res.status(201).json({ msg: "User registered successfully", registerUser })
 
     } catch (error) {
