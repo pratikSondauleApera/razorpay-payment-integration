@@ -37,7 +37,6 @@ const createRazorpayCustomer = async (userId: string, customerId: string, entity
     }
 }
 
-
 export const signUpAsUser: RequestHandler = async (req, res) => {
     const name = (req.body as { name: string }).name
     const contact = (req.body as { contact: string }).contact
