@@ -52,9 +52,9 @@ export const validateOrder: RequestHandler = (req, res) => {
 
         const sha = crypto.createHmac("sha256", process.env.RAZORPAY_KEY_SECRET!);
         sha.update(`${razorpay_order_id}|${razorpay_payment_id}`);
-        const digest = sha.digest("hex");
+        const signature = sha.digest("hex");
 
-        if (digest !== razorpay_signature) {
+        if (signature !== razorpay_signature) {
             return res.status(400).json({ msg: "Transaction is not legit!" });
         }
 

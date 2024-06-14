@@ -5,5 +5,4 @@ const router = Router()
 
 router.post('/add/:userId/:productId', createInvoice)
 
-
 export default router

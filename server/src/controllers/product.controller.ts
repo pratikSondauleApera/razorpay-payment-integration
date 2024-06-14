@@ -8,25 +8,26 @@ export const addProduct: RequestHandler = async (req, res) => {
     const description = (req.body as { description: string }).description
     const amount = (req.body as { amount: number }).amount
 
-    if (!name || !description || !amount) {
-        return res.status(400).json({ error: "Please fill the required details" })
-    }
+    // if (!name || !description || !amount) {
+    //     return res.status(400).json({ error: "Please fill the required details" })
+    // }
 
-    try {
-        const productData = {
-            name,
-            description,
-            amount
-        }
+    // try {
+    //     const productData = {
+    //         name,
+    //         description,
+    //         amount,
+    //         vendorId
+    //     }
 
-        const addProduct = await prisma.product.create({
-            data: productData
-        })
+    //     const addProduct = await prisma.product.create({
+    //         data: productData
+    //     })
 
-        return res.status(201).json({ msg: "Product added successfully", addProduct })
+    //     return res.status(201).json({ msg: "Product added successfully", addProduct })
 
-    } catch (error) {
-        console.log(error)
-        return res.status(500).json({ msg: "Something went wrong while adding product", error })
-    }
+    // } catch (error) {
+    //     console.log(error)
+    //     return res.status(500).json({ msg: "Something went wrong while adding product", error })
+    // }
 }

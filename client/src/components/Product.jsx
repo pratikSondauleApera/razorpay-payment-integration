@@ -34,6 +34,8 @@ const Product = () => {
                         ...response,
                     }
 
+                    console.log("Response ", response)
+
                     const validateRes = await axios.post("http://localhost:8000/razorpay/order/validate", body)
 
                     const jsonRes = validateRes.data;
@@ -51,6 +53,8 @@ const Product = () => {
                     "color": "#28282B"
                 },
             };
+
+            console.log("Payment Id", options.handler)
 
             var rzp = new Razorpay(options);
             rzp.on("payment.failed", function (response) {
