@@ -14,69 +14,16 @@ datasource db {
 }
 
 model User {
-  id                         String                       @id @default(cuid())
-  name                       String
-  contact                    String
-  email                      String                       @unique
-  addressLine1               String
-  addressLine2               String
-  country                    String
-  state                      String
-  city                       String
-  pincode                    String
-  role                       Role
-  password                   String
-  createdAt                  DateTime                     @default(now())
-  vendor                     Vendor[]
-  razorpayCustomer           RazorpayCustomer[]
-  razorpayCustomerIdentifier RazorpayCustomerIdentifier[]
-}
-
-model Vendor {
-  id            String    @id @default(cuid())
-  user          User      @relation(fields: [userId], references: [id])
-  userId        String
-  accountNumber String
-  ifscCode      String
-  createdAt     DateTime  @default(now())
-  product       Product[]
-}
-
-model Product {
-  id          String   @id @default(cuid())
-  name        String
-  description String
-  amount      Int
-  vendor      Vendor   @relation(fields: [vendorId], references: [id])
-  vendorId    String
-  createdAt   DateTime @default(now())
-}
-
-model RazorpayCustomer {
-  id         String   @id @default(cuid())
-  user       User     @relation(fields: [userId], references: [id])
-  userId     String
-  customerId String
-  createdAt  DateTime @default(now())
-}
-
-model RazorpayCustomerIdentifier {
-  id                   String   @id @default(cuid())
-  customerIdentifierId String
-  user                 User     @relation(fields: [userId], references: [id])
-  userId               String
-  description          String?
-  createdAt            DateTime @default(now())
-}
-
-model OrderAndPayment {
-  id        String   @id @default(cuid())
-  orderId   String
-  paymentId String
-  createdAt DateTime @default(now())
-}
-
-enum Role {
-  USER
-  VENDOR
+  id           String   @id @default(cuid())
+  name         String
+  contact      String
+  email        String   @unique
+  addressLine1 String
+  addressLine2 String
+  country      String
+  state        String
+  city         String
+  pincode      String
+  password     String
+  createdAt    DateTime @default(now())
 }

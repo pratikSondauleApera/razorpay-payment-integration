@@ -4,7 +4,7 @@ import Product from './components/Product'
 function App() {
   return (
     <>
-      <Product />
+      <h1>Hello World</h1>
     </>
   )
 }
